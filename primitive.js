@@ -1,31 +1,16 @@
-const n =1.23456;
-console.log(n.toFixed(2)); 
-console.log(n.toPrecision(10));
-
-const user = {
-    name: 'John',
-    age: 36,
-    toString(){
-        return this.name + this.age
+function printGreeting(name) { // simple undecorated function
+    console.log('Hello, ' + name);
+    }
+    printGreeting('Undecorated')
+    function loggingTimingDecorator(originalFunction) { // decorator takes a function as parameter
+    return function (name) { // and returns that function with extra bits - timing/logging
+    console.time('Function timer'); // start a timer
+    console.log(`\nExecuting function ...`) // log a message
+    const result = originalFunction(name); // execute the original function and store result
+    console.timeEnd('Function timer'); // stop the timer
+    return result; // return the result of running the original function
     }
     }
-    console.log("User: " + user) // User: John
-
-    const apple = {
-        name: 'Apple',
-        category: 'Granny Smith',
-        price: 1.2,
-        valueOf() { // without this special function, we can’t multiply the object below
-        return this.price
-        }
-        }
-        console.log("The value of apple is $" + apple * 2) // 2.4
-
-        console.log( String.fromCodePoint(65) ) // Z
-        const stringNums = ["81", "1", "41", "102", "35", "1004"]
-        
-        console.log( stringNums.sort() ) // [ '1', '1004', '102', '35', '41', '81' ] : string comparisons
-        console.log( stringNums.sort((a, b) => a - b) ) // [ '1', '35', '41', '81', '102', '1004' ]
-
-        const mobile = '041234567'
-console.log(mobile)
+    // returns the original function WITH the timing/logging features included
+    const decoratedPrintGreeting = loggingTimingDecorator(printGreeting);
+    decoratedPrintGreeting('Decorated') // we can still call the decorated version in the same way

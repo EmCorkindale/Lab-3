@@ -7,20 +7,20 @@
 // c) Modify makeCounter to take another argument incrementBy, which specifies how
 // much each call to counter() should increase the counter value by.
 function makeCounter(startFrom, incrementBy) {
-let currentCount = startFrom || 0;
-function increment(){
+  let currentCount = startFrom || 0;
+  function increment() {
     currentCount += incrementBy || 1;
-}
-return function (){
+  }
+  return function () {
     increment();
     console.log(currentCount);
-    return currentCount
-};
+    return currentCount;
+  };
 }
 let counter1 = makeCounter(5, 2);
 counter1(); // 1
 counter1(); // 2
-let counter2 = makeCounter(8,25);
+let counter2 = makeCounter(8, 25);
 counter2();
 counter2();
 
@@ -31,17 +31,15 @@ counter2();
 //delayMsg = (msg) => console.log(`This message will be printed after a delay: ${msg}`)
 // c) Add a fifth test which uses a large delay time (greater than 10 seconds)
 // d) Use clearTimeout to prevent the fifth test from printing at all.
-function delayMsg(msg)
-{
-console.log(`This message will be printed after a delay: ${msg}`)
+function delayMsg(msg) {
+  console.log(`This message will be printed after a delay: ${msg}`);
 }
-let timer1 = setTimeout(delayMsg, 100, '#1: Delayed by 100ms');
-let timer2 =setTimeout(delayMsg, 20, '#2: Delayed by 20ms');
-let timer3 =setTimeout(delayMsg, 0, '#3: Delayed by 0ms');
-delayMsg('#4: Not delayed at all')
-let timer5 = setTimeout(delayMsg, 10000, '#5: Delayed by 10000ms')
+let timer1 = setTimeout(delayMsg, 100, "#1: Delayed by 100ms");
+let timer2 = setTimeout(delayMsg, 20, "#2: Delayed by 20ms");
+let timer3 = setTimeout(delayMsg, 0, "#3: Delayed by 0ms");
+delayMsg("#4: Not delayed at all");
+let timer5 = setTimeout(delayMsg, 10000, "#5: Delayed by 10000ms");
 clearTimeout(timer5);
-
 
 // 3. 'Debouncing' is a concept that refers to 'putting off' the execution of multiple, fast-timed,
 // similar requests until there's a brief pause, then only executing the most recent of those
@@ -56,58 +54,118 @@ clearTimeout(timer5);
 // length of the period of inactivity instead of hardcoding to 1000ms
 // c) Extend debounce to allow the original debounced function printMe to take an argument
 // msg which is included in the console.log statement.
-function printMe() {
-console.log('printing debounced message')
-}
-function debouncePrintMe(printMe){
-    return function (){
-        console.time('Function timer');
-        console.log(`\nExecuting function...`);
-        const result = printMe();
-        console.timeEnd('Function timer');
-        return result;
-    }
-}
-printMe = debounce(printMe); //create this debounce function for a)
-//fire off 3 calls to printMe within 300ms - only the LAST one should print, after
-1000ms of no calls
-setTimeout( printMe, 100);
-setTimeout( printMe, 200);
-setTimeout( printMe, 300);
+// function printMe() {
+// console.log('printing debounced message')
+// }
+// function debounceFunc(func){
+//     return function (){
+//         console.time('Function timer');
+//         console.log(`\nExecuting function...`);
+//         const result = printMe();
+//         console.timeEnd('Function timer');
+//         return result;
+//     }
+// }
+// printMe = debounceFunc(func); //create this debounce function for a)
+// //fire off 3 calls to printMe within 300ms - only the LAST one should print, after
+// 1000ms of no calls
+// setTimeout( printMe, 100);
+// setTimeout( printMe, 200);
+// setTimeout( printMe, 300);
 
 // // 4. The Fibonacci sequence of numbers is a famous pattern where the next number in the
 // // sequence is the sum of the previous 2.
 // // e.g. 1, 1, 2, 3, 5, 8, 13, 21, 34, etc.
 // // a) Write a function printFibonacci() using setInterval that outputs a number in
 // // the Fibonacci sequence every second.
-// // b) Write a new version printFibonacciTimeouts() that uses nested setTimeout
-// // calls to do the same thing
-// // c) Extend one of the above functions to accept a limit argument, which tells it how many
-// // numbers to print before stopping.
+// function printFibonacci() {
+//     let a = 0;
+//     let b = 1;
+//     return function () {
+//       const nextFibonacci = a;
+//       const sum = a + b;
+//       a = b;
+//       b = sum;
+//       return nextFibonacci;
+//     };
+//   }
+  
+//   const getNextFibonacci = printFibonacci();
+//   let timerId = setInterval(() => {
+//     const fibonacciNumber = getNextFibonacci();
+//     console.log(fibonacciNumber);
+//   }, 1000);
+  
+//   const numberOfIterations = 10; // For example, print 10 Fibonacci numbers
+//   let iterations = 0;
+  
+//   const stopIntervalId = setTimeout(() => {
+//     clearInterval(timerId);
+//     console.log('Interval stopped.');
+// }, 1000 * numberOfIterations);
+// b) Write a new version printFibonacciTimeouts() that uses nested setTimeout
+// calls to do the same thing
+function printFibonacci() {
+    let a = 0;
+    let b = 1;
 
-// // 5. The following car object has several properties and a method which uses them to print a
-// // description. When calling the function normally this works as expected, but using it from
-// // within setTimeout fails. Why?
-// let car = {
-// make: "Porsche",
-// model: '911',
-// year: 1964,
-// description() {
+function getNextFibonacci(){
+    const nextFibonacci = a;
+      const sum = a + b;
+      a = b;
+      b = sum;
+      return nextFibonacci;
+    };
 
-// console.log(`This car is a ${this.make} ${this.model} from ${this.year}`);
-// }
-// };
-// car.description(); //works
-// setTimeout(car.description, 200); //fails
-// // a) Fix the setTimeout call by wrapping the call to car.description() inside a
-// // function
-// // b) Change the year for the car by creating a clone of the original and overriding it
-// // c) Does the delayed description() call use the original values or the new values from
-// // b)? Why?
-// // d) Use bind to fix the description method so that it can be called from within
-// // setTimeout without a wrapper function
-// // e) Change another property of the car by creating a clone and overriding it, and test that
-// // setTimeout still uses the bound value from d)
+function printNext (){
+    const fibonacciNumber = getNextFibonacci();
+    console.log(fibonacciNumber);
+    if (--iterationNumber > 0){
+        setTimeout (printNext, 1000);
+    }
+    else {
+        console.log('Stopped');
+    }
+}
+
+let iterationNumber = 10;
+setTimeout(printNext, 1000);
+}
+printFibonacci();
+// c) Extend one of the above functions to accept a limit argument, which tells it how many
+// numbers to print before stopping.
+
+// 5. The following car object has several properties and a method which uses them to print a
+// description. When calling the function normally this works as expected, but using it from
+// within setTimeout fails. Why? this doesn't reference the car object anymore, it references setTimeout.
+let car = {
+make: "Porsche",
+model: '911',
+year: 1964,
+description() {
+
+console.log(`This car is a ${this.make} ${this.model} from ${this.year}`);
+}
+};
+// a) Fix the setTimeout call by wrapping the call to car.description() inside a
+// function
+function carDescription (){
+    return car.description(); //works
+}
+setTimeout(carDescription, 200); //fails
+// b) Change the year for the car by creating a clone of the original and overriding it
+let clonedCar = Object.create (
+    Object.getPrototypeOf(car),
+    {
+        year: {value : 1992}
+    }
+)
+// c) Does the delayed description() call use the original values or the new values from
+// b)? Why?
+// d) Use bind to fix the description method so that it can be called from within
+// setTimeout without a wrapper function
+// e) Change another property of the car by creating a clone and overriding it, and test that
+// setTimeout still uses the bound value from d)
 
 // // 6. Use the Function prototype to add a new delay(ms) function to all functions, which can
 // // be used to delay the call to that function by ms milliseconds.
